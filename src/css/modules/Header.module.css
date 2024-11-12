@@ -1,0 +1,80 @@
+/* Header.css */
+.header {
+  background-color: rgb(1, 2, 78); /* Color de fondo del header */
+  color: white;
+  padding: 1rem 2rem; /* Ajuste de padding para mayor consistencia */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Agrega una sombra sutil */
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 700;
+  color: rgb(253, 253, 253);
+  text-decoration: none; /* Elimina el subrayado del enlace */
+}
+
+.logo h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* Añadir este nuevo contenedor para el logo y el texto */
+.logoContainer {
+  display: flex;
+  align-items: center; /* Alinea verticalmente el logo y el texto */
+}
+
+/* Añadir estilos específicos para la imagen del logo */
+.logoImage {
+  width: 50px; /* Ajusta el tamaño del logo según tus necesidades */
+  height: auto; /* Mantiene la proporción del logo */
+  margin-right: 0.5rem; /* Espacio entre el logo y el texto */
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.user-info {
+  margin-right: 1rem; /* Espacio entre la información del usuario y el botón de cerrar sesión */
+}
+
+.userName {
+  font-weight: 600;
+}
+
+.logout {
+  background-color: #bb2c00; /* Color de fondo del botón */
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem; /* Mayor padding para un botón más prominente */
+  cursor: pointer;
+  border-radius: 4px; /* Bordes redondeados */
+  font-size: 0.9rem; /* Tamaño de fuente ajustado */
+  transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+}
+
+.logout:hover {
+  background-color: #9c2c00; /* Color de fondo en hover */
+}
+
+.logout:focus {
+  outline: none; /* Elimina el contorno del botón al hacer clic */
+}
+
+.roleBadge {
+  background-color: #e0f7fa; /* Color de fondo suave */
+  color: #011614; /* Color de texto que contraste bien */
+  padding: 4px 8px; /* Añade algo de padding */
+  border-radius: 12px; /* Bordes redondeados */
+  font-weight: bold; /* Resalta el texto */
+  font-size: 0.9em; /* Tamaño de fuente */
+  display: inline-block; /* Asegura que el fondo se ajuste al contenido */
+  margin-left: 5px; /* Espacio entre el nombre y el rol */
+}
