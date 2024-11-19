@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "../../css/Usuarios/CrearUsuario.module.css";
+import Alerta from "../../components/Alerta";
 
 //Formulario para editar una reservacion
 const ActualizarReserva = () => {
@@ -15,7 +16,7 @@ const ActualizarReserva = () => {
 
   const [huespedes, setHuespedes] = useState([]);
   const [habitaciones, setHabitaciones] = useState([]);
-
+  const [alerta, setAlerta] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -115,7 +116,13 @@ const ActualizarReserva = () => {
       );
 
       if (response.ok) {
-        navigate("/dashboard/reservas");
+        setAlerta({
+          msg: "Habitacion actualizada correctamente",
+          error: false,
+        });
+        setTimeout(() => {
+          navigate("/dashboard/reservas");
+        }, 3000);
       } else {
         const responseData = await response.json();
         console.error("Error al actualizar la reserva:", responseData.error);
@@ -124,6 +131,7 @@ const ActualizarReserva = () => {
       console.error("Error de red:", error);
     }
   };
+  const { msg } = alerta;
 
   return (
     <div className={styles.content}>
@@ -131,6 +139,7 @@ const ActualizarReserva = () => {
       <Link to="/dashboard/reservas">
         <button className={styles.volverBoton}>Volver</button>
       </Link>
+      {msg && <Alerta alerta={alerta} />}
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit}>
           <h2 className={styles.title}>Información de la Reserva</h2>

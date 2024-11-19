@@ -27,7 +27,6 @@ const AuthProvider = ({ children }) => {
           config
         );
         setAuth(data);
-        console.log(data);
       } catch (error) {
         console.log(error.response.data.msg);
         setAuth({});

@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "../../css/Usuarios/Usuarios.module.css";
+import Alerta from "../../components/Alerta";
 
 const Reservas = () => {
   const [reservas, setReservas] = useState([]);
   const token = localStorage.getItem("token");
+  const [alerta, setAlerta] = useState({});
 
   const obtenerInfoReservas = async () => {
     try {
@@ -49,7 +51,7 @@ const Reservas = () => {
       );
 
       if (response.ok) {
-        console.log("Reserva eliminada exitosamente");
+        setAlerta({ msg: "Reserva creada correctamente", error: false });
         // Puedes recargar la lista de reservas después de eliminar una
         obtenerInfoReservas();
       } else {
@@ -59,6 +61,7 @@ const Reservas = () => {
       console.error("Error de red:", error);
     }
   };
+  const { msg } = alerta;
 
   return (
     <div className={styles.content}>
@@ -68,7 +71,7 @@ const Reservas = () => {
           <button className={styles.crearButton}>Crear Reserva</button>
         </Link>
       </div>
-
+      {msg && <Alerta alerta={alerta} />}
       <div className={styles.tableContainer}>
         <table className={styles.usuariosTable}>
           <thead>

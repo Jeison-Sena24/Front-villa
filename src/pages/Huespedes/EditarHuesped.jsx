@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import styles from "../../css/Usuarios/EdiarUsuario.module.css";
+import Alerta from "../../components/Alerta";
 
 //Formulario para editar un huesped
 const EditarHuesped = () => {
@@ -11,6 +12,8 @@ const EditarHuesped = () => {
     telefono: "",
     correo: "",
   });
+  const [alerta, setAlerta] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +72,8 @@ const EditarHuesped = () => {
       );
 
       if (response.ok) {
-        alert("Huésped actualizado exitosamente");
+        setAlerta({ msg: "Huesped actualizado correctamente", error: false });
+        navigate("/dashboard/huespedes");
       } else {
         console.error("Error al actualizar el huésped");
       }
@@ -77,6 +81,7 @@ const EditarHuesped = () => {
       console.error("Error de red:", error);
     }
   };
+  const { msg } = alerta;
 
   return (
     <div className={styles.content}>
@@ -84,6 +89,7 @@ const EditarHuesped = () => {
       <Link to="/dashboard/huespedes">
         <button className={styles.volverBoton}>Volver</button>
       </Link>
+      {msg && <Alerta alerta={alerta} />}
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit}>
           <h2 className={styles.title}>Información del Huésped</h2>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import styles from "../../css/Usuarios/EdiarUsuario.module.css";
+import Alerta from "../../components/Alerta";
 
 //Formulario para editar un usuario
 const EditarUsuario = () => {
@@ -14,7 +15,8 @@ const EditarUsuario = () => {
     correo: "",
     rol: "",
   });
-
+  const navigate = useNavigate();
+  const [alerta, setAlerta] = useState({});
   const [showPasswordHint, setShowPasswordHint] = useState(false);
 
   useEffect(() => {
@@ -43,7 +45,6 @@ const EditarUsuario = () => {
             correo: userData.usuario.correo || "",
             rol: userData.usuario.rol || "",
           });
-          console.log(userData);
         } else {
           console.error("Error al obtener la información del usuario");
         }
@@ -85,7 +86,10 @@ const EditarUsuario = () => {
       );
 
       if (response.ok) {
-        alert("Usuario actualizado exitosamente");
+        setAlerta({ msg: "Usuario actualizado correctamente", error: false });
+        setTimeout(() => {
+          navigate("/dashboard/usuarios"); // Redirigir al dashboard
+        }, 3000);
       } else {
         console.error("Error al actualizar el usuario");
       }
@@ -93,6 +97,7 @@ const EditarUsuario = () => {
       console.error("Error de red:", error);
     }
   };
+  const { msg } = alerta;
 
   return (
     <div className={styles.content}>
@@ -100,6 +105,7 @@ const EditarUsuario = () => {
       <Link to="/dashboard/usuarios">
         <button className={styles.volverBoton}>Volver</button>
       </Link>
+      {msg && <Alerta alerta={alerta} />}
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit}>
           <h2 className={styles.title}>Información Personal</h2>

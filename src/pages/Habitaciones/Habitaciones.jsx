@@ -1,12 +1,13 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import DataContext from "../../context/DataProvider";
 import styles from "../../css/Usuarios/Usuarios.module.css";
+import Alerta from "../../components/Alerta";
 
 const Habitaciones = () => {
   const { habitaciones, setHabitaciones } = useContext(DataContext);
-
   const token = localStorage.getItem("token");
+  const [alerta, setAlerta] = useState({});
 
   const obtenerInfoHabitaciones = async () => {
     try {
@@ -51,7 +52,7 @@ const Habitaciones = () => {
       );
 
       if (response.ok) {
-        console.log("Habitación eliminada exitosamente");
+        setAlerta({ msg: "Habitacion eliminada correctamente", error: false });
         // Puedes recargar la lista de habitaciones después de eliminar una
         obtenerInfoHabitaciones();
       } else {
@@ -61,6 +62,7 @@ const Habitaciones = () => {
       console.error("Error de red:", error);
     }
   };
+  const { msg } = alerta;
 
   return (
     <div className={styles.content}>
@@ -70,6 +72,7 @@ const Habitaciones = () => {
           <button className={styles.crearButton}>Crear Habitacion</button>
         </Link>
       </div>
+      {msg && <Alerta alerta={alerta} />}
 
       <div className={styles.tableContainer}>
         <table className={styles.usuariosTable}>

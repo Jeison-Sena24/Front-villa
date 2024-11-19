@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../../css/Usuarios/CrearUsuario.module.css";
+import Alerta from "../../components/Alerta";
 
 //Formulario para registrar un huesped
 const CrearHuesped = () => {
@@ -10,7 +11,7 @@ const CrearHuesped = () => {
     telefono: "",
     correo: "",
   });
-
+  const [alerta, setAlerta] = useState({});
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -37,7 +38,10 @@ const CrearHuesped = () => {
       );
 
       if (response.ok) {
-        navigate("/dashboard/huespedes");
+        setAlerta({ msg: "Huesped creado correctamente", error: false });
+        setTimeout(() => {
+          navigate("/dashboard/huespedes");
+        }, 3000);
       } else {
         console.error("Error al registrar al huésped");
       }
@@ -45,6 +49,7 @@ const CrearHuesped = () => {
       console.error("Error de red:", error);
     }
   };
+  const { msg } = alerta;
 
   return (
     <div className={styles.content}>
@@ -52,6 +57,7 @@ const CrearHuesped = () => {
       <Link to="/dashboard/huespedes">
         <button className={styles.volverBoton}>Volver</button>
       </Link>
+      {msg && <Alerta alerta={alerta} />}
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit}>
           <h2 className={styles.title}>Información del Huésped</h2>

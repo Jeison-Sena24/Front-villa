@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../../css/Usuarios/CrearUsuario.module.css";
+import Alerta from "../../components/Alerta";
 
 //Formulario para crear una habitacion
 const CrearHabitacion = () => {
@@ -10,7 +11,8 @@ const CrearHabitacion = () => {
     nivel: "",
     precio: "",
   });
-
+  const navigate = useNavigate();
+  const [alerta, setAlerta] = useState({});
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -35,7 +37,10 @@ const CrearHabitacion = () => {
       );
 
       if (response.ok) {
-        console.log("Habitación creada exitosamente");
+        setAlerta({ msg: "Habitacion creada correctamente", error: false });
+        setTimeout(() => {
+          navigate("/dashboard/habitaciones"); // Redirigir al dashboard
+        }, 3000);
       } else {
         console.error("Error al crear la habitación");
       }
@@ -43,6 +48,7 @@ const CrearHabitacion = () => {
       console.error("Error de red:", error);
     }
   };
+  const { msg } = alerta;
 
   return (
     <div className={styles.content}>
@@ -50,6 +56,7 @@ const CrearHabitacion = () => {
       <Link to="/dashboard/habitaciones">
         <button className={styles.volverBoton}>Volver</button>
       </Link>
+      {msg && <Alerta alerta={alerta} />}
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit}>
           <h2 className={styles.title}>Información de la Habitación</h2>

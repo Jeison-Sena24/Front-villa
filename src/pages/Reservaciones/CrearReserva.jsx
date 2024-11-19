@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../../css/Usuarios/CrearUsuario.module.css";
+import Alerta from "../../components/Alerta";
 
 //Formulario para crear una reservacion
 const CrearReserva = () => {
@@ -11,7 +12,7 @@ const CrearReserva = () => {
     fecha_inicio: "",
     fecha_fin: "",
   });
-
+  const [alerta, setAlerta] = useState({});
   const navigate = useNavigate();
 
   const [huespedes, setHuespedes] = useState([]);
@@ -104,7 +105,10 @@ const CrearReserva = () => {
       );
 
       if (response.ok) {
-        navigate("/dashboard/reservas");
+        setAlerta({ msg: "Reserva creada correctamente", error: false });
+        setTimeout(() => {
+          navigate("/dashboard/reservas");
+        }, 3000);
       } else {
         const responseData = await response.json();
         console.error("Error al crear la reserva:", responseData.error);
@@ -113,6 +117,7 @@ const CrearReserva = () => {
       console.error("Error de red:", error);
     }
   };
+  const { msg } = alerta;
 
   return (
     <div className={styles.content}>
@@ -120,6 +125,7 @@ const CrearReserva = () => {
       <Link to="/dashboard/reservas">
         <button className={styles.volverBoton}>Volver</button>
       </Link>
+      {msg && <Alerta alerta={alerta} />}
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit}>
           <h2 className={styles.title}>Información de la Reserva</h2>

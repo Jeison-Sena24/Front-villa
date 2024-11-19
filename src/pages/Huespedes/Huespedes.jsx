@@ -1,10 +1,12 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import DataContext from "../../context/DataProvider";
 import styles from "../../css/Usuarios/Usuarios.module.css";
+import Alerta from "../../components/Alerta";
 
 const Huespedes = () => {
   const { huespedes, setHuespedes } = useContext(DataContext);
+  const [alerta, setAlerta] = useState({});
 
   const eliminarHuesped = async (id) => {
     try {
@@ -19,7 +21,7 @@ const Huespedes = () => {
       );
 
       if (response.ok) {
-        console.log("Huésped eliminado exitosamente");
+        setAlerta({ msg: "Huesped eliminado correctamente", error: false });
         setHuespedes((prev) => prev.filter((huesped) => huesped.id !== id));
       } else {
         console.error("Error al eliminar el huésped");
@@ -28,6 +30,7 @@ const Huespedes = () => {
       console.error("Error de red:", error);
     }
   };
+  const { msg } = alerta;
 
   return (
     <div className={styles.content}>
@@ -37,7 +40,7 @@ const Huespedes = () => {
           <button className={styles.crearButton}>Crear Huésped</button>
         </Link>
       </div>
-
+      {msg && <Alerta alerta={alerta} />}
       <div className={styles.tableContainer}>
         <table className={styles.usuariosTable}>
           <thead>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import styles from "../../css/Usuarios/EdiarUsuario.module.css";
+import Alerta from "../../components/Alerta";
 
 //Formulario para editar una habitacion
 const EditarHabitacion = () => {
@@ -11,6 +12,8 @@ const EditarHabitacion = () => {
     nivel: "",
     precio: "",
   });
+  const navigate = useNavigate();
+  const [alerta, setAlerta] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +72,13 @@ const EditarHabitacion = () => {
       );
 
       if (response.ok) {
-        alert("Habitación actualizada exitosamente");
+        setAlerta({
+          msg: "Habitacion actualizada correctamente",
+          error: false,
+        });
+        setTimeout(() => {
+          navigate("/dashboard/habitaciones"); // Redirigir al dashboard
+        }, 3000);
       } else {
         console.error("Error al actualizar la habitación");
       }
@@ -77,6 +86,7 @@ const EditarHabitacion = () => {
       console.error("Error de red:", error);
     }
   };
+  const { msg } = alerta;
 
   return (
     <div className={styles.content}>
@@ -84,6 +94,7 @@ const EditarHabitacion = () => {
       <Link to="/dashboard/habitaciones">
         <button className={styles.volverBoton}>Volver</button>
       </Link>
+      {msg && <Alerta alerta={alerta} />}
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit}>
           <h2 className={styles.title}>Información de la Habitación</h2>

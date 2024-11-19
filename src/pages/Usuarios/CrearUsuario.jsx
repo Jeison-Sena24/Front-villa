@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../../css/Usuarios/CrearUsuario.module.css";
 import Alerta from "../../components/Alerta";
 
@@ -14,6 +14,7 @@ const CrearUsuario = () => {
     correo: "",
     rol: "",
   });
+  const navigate = useNavigate();
   const [alerta, setAlerta] = useState({});
 
   const handleChange = (e) => {
@@ -59,6 +60,9 @@ const CrearUsuario = () => {
 
       if (response.ok) {
         setAlerta({ msg: "Usuario creado correctamente", error: false });
+        setTimeout(() => {
+          navigate("/dashboard/usuarios"); // Redirigir al dashboard
+        }, 3000);
       } else {
         console.error("Error al crear el usuario");
       }
